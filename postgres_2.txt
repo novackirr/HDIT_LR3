@@ -1,0 +1,194 @@
+CREATE TABLE Body 
+(
+  ID int NOT NULL,
+);
+
+CREATE TABLE Body_ch 
+(
+  ID int NOT NULL,
+  typename varchar(20) NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+CREATE TABLE Brand
+(
+  ID int NOT NULL,
+);
+
+CREATE TABLE Brand_ch 
+(
+  ID int NOT NULL,
+  name varchar(20) NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+CREATE TABLE Client
+(
+  ID int NOT NULL,
+);
+
+CREATE TABLE Client_ch
+(
+  ID int NOT NULL,
+  Phone int NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+CREATE TABLE Client_order
+(
+  ID_client int NOT NULL,
+  ID_order int NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+CREATE TABLE Model
+(
+  ID int NOT NULL,
+);
+
+CREATE TABLE Model_ch
+(
+  ID int NOT NULL,
+  Name varchar(20) NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+CREATE TABLE OrderCar (
+  ID int NOT NULL,
+);
+
+CREATE TABLE Order_body
+(
+  ID_order int NOT NULL,
+  ID_body int NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+CREATE TABLE Order_brand
+(
+  ID_order int NOT NULL,
+  ID_brand int NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+CREATE TABLE Order_model
+(
+  ID_order int NOT NULL,
+  ID_model int NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+CREATE TABLE Order_ch
+(
+  ID int NOT NULL,
+  Date_order date NOT NULL,
+  timeFrom date NOT NULL,
+  timeTo date NOT NULL
+);
+
+ALTER TABLE Body
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Body_ch
+  ADD UNIQUE KEY ID (ID);
+
+ALTER TABLE Brand
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Brand_ch
+  ADD UNIQUE KEY ID (ID);
+
+ALTER TABLE Client
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Client_ch
+  ADD UNIQUE KEY ID (ID) USING BTREE;
+
+ALTER TABLE Client_order
+  ADD UNIQUE KEY ID_client (ID_client),
+  ADD UNIQUE KEY ID_order (ID_order);
+
+ALTER TABLE Model
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Model_ch
+  ADD UNIQUE KEY ID (ID);
+
+ALTER TABLE OrderCar
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Order_body
+  ADD UNIQUE KEY id_order (id_order),
+  ADD UNIQUE KEY id_body (id_body);
+
+ALTER TABLE Order_brand
+  ADD UNIQUE KEY id_order (id_order),
+  ADD UNIQUE KEY id_brand (id_brand);
+
+ALTER TABLE Order_ch
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Order_model
+  ADD UNIQUE KEY id_order (id_order),
+  ADD UNIQUE KEY id_brand (id_brand);
+
+ALTER TABLE Body
+  MODIFY ID int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE Brand
+  MODIFY ID int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE Client
+  MODIFY ID int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE Client_ch
+  MODIFY ID int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE Model
+  MODIFY ID int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE OrderCar
+  MODIFY ID int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE Order_ch
+  MODIFY ID int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE Body_ch
+  ADD CONSTRAINT body_ch_ibfk_1 FOREIGN KEY (ID) REFERENCES Body (ID);
+
+ALTER TABLE Brand_ch
+  ADD CONSTRAINT brand_ch_ibfk_1 FOREIGN KEY (ID) REFERENCES Brand (ID);
+
+ALTER TABLE Client_ch
+  ADD CONSTRAINT Client_ch_ibfk_1 FOREIGN KEY (ID) REFERENCES Client (ID);
+
+ALTER TABLE Client_order
+  ADD CONSTRAINT client_order_ibfk_1 FOREIGN KEY (ID_client) REFERENCES Client (ID),
+  ADD CONSTRAINT client_order_ibfk_2 FOREIGN KEY (ID_order) REFERENCES OrderCar (ID);
+
+ALTER TABLE Model_ch
+  ADD CONSTRAINT model_ch_ibfk_1 FOREIGN KEY (ID) REFERENCES Model (ID);
+
+ALTER TABLE Order_body
+  ADD CONSTRAINT order_body_ibfk_1 FOREIGN KEY (id_order) REFERENCES OrderCar (ID),
+  ADD CONSTRAINT order_body_ibfk_2 FOREIGN KEY (id_body) REFERENCES Body (ID);
+
+ALTER TABLE Order_brand
+  ADD CONSTRAINT order_brand_ibfk_1 FOREIGN KEY (id_brand) REFERENCES Brand (ID),
+  ADD CONSTRAINT order_brand_ibfk_2 FOREIGN KEY (id_order) REFERENCES OrderCar (ID);
+
+ALTER TABLE  Order_ch
+  ADD CONSTRAINT order_ch_ibfk_1 FOREIGN KEY (ID) REFERENCES OrderCar (ID);
+
+ALTER TABLE Order_model
+  ADD CONSTRAINT order_model_ibfk_1 FOREIGN KEY (id_brand) REFERENCES model (ID),
+  ADD CONSTRAINT order_model_ibfk_2 FOREIGN KEY (id_order) REFERENCES OrderCar (ID);
+COMMIT;

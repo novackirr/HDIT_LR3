@@ -1,0 +1,58 @@
+CREATE TABLE Body 
+(
+  ID int NOT NULL,
+  TypeName varchar(20) NOT NULL
+);
+
+CREATE TABLE Brand
+(
+  ID int NOT NULL,
+  Name	varchar(20) NOT NULL
+);
+
+CREATE TABLE Client
+(
+  ID int NOT NULL,
+  Phone	int NOT NULL
+);
+
+CREATE TABLE Model
+(
+  ID int NOT NULL,
+  Name	char(150) NOT NULL
+);
+
+CREATE TABLE OrderCar (
+  ID int NOT NULL,
+  ID_client int NOT NULL,
+  Date_order date NOT NULL,
+  ID_brand int NOT NULL,
+  ID_model int NOT NULL,
+  ID_body int NOT NULL
+);
+
+ALTER TABLE Body
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Brand
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Client
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE Model
+  ADD PRIMARY KEY (ID);
+
+ALTER TABLE OrderCar
+  ADD PRIMARY KEY (ID),
+  ADD UNIQUE(ID_client),
+  ADD UNIQUE(ID_brand),
+  ADD UNIQUE(ID_model),
+  ADD UNIQUE(ID_body);
+
+ALTER TABLE OrderCar
+  ADD CONSTRAINT OrderCar_ibfk_1 FOREIGN KEY (ID_client) REFERENCES Client (ID),
+  ADD CONSTRAINT OrderCar_ibfk_2 FOREIGN KEY (ID_brand) REFERENCES Brand (ID),
+  ADD CONSTRAINT OrderCar_ibfk_3 FOREIGN KEY (ID_model) REFERENCES Model (ID),
+  ADD CONSTRAINT OrderCar_ibfk_4 FOREIGN KEY (ID_body) REFERENCES Body (ID);
+COMMIT;
